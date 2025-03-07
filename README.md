@@ -79,7 +79,7 @@ Dans ce projet nous cherchons à prédire le prix d'une option call en fonction 
 
 Pour répondre à notre problématique, nous avons du récupérer plusieurs catégories de données issues de différentes sources : 
 
-## Les données des sous-jacent et des calls
+### Les données des sous-jacent et des calls
 
 Nous avons utilisé la bibliothèque Yahoo Finance, yfinance, pour accéder aux données. Cependant, l'historique des prix des options d'achat (calls) ne remonte pas à plus de deux ans. Nous avons donc dû traiter un problème de série temporelle avec un volume limité de données historiques. Pour remédier à cette contrainte, deux approches étaient envisageables :
 
@@ -97,7 +97,7 @@ La bibliothèque yahoofinance ne fonctionnanant pas toujours après 2 ou 3 récu
 
 Nous avons donc du générer les tables de manière individuelle pour chaque entreprise ce qui prend 15 minutes/entreprise ( avec le script :  script_data/call_{entreprise}_v2 ) qui génère un fichier csv stocké dans le SSPcloud et accessible via "FILE_PATH_S3 = f"{MY_BUCKET}/result/data_{ticker}_filtre2.csv" comme précisé dans les scripts ). Le script "script_dataframe_final_v2.ipybn" permet à partir de ces fichiers dans SSPcloud de générer la table finale.
 
-## Les données macroéconomiques
+### Les données macroéconomiques
 
 Pour enrichir notre analyse et répondre efficacement à notre problématique, nous avons intégré plusieurs variables macroéconomiques.
 
@@ -109,37 +109,3 @@ Par ailleurs, nous avons aussi exploité l'API de la Banque Fédérale de Saint 
 - Un indice représentant l'inflation (IPC)
 
 Cette combinaison de données financières et macroéconomiques nous a permis d'approfondir notre analyse tout en garantissant une vue d'ensemble cohérente sur les différents facteurs influençant notre sujet.
-
-## Project Structure
-
-```
-.
-├── README.md
-│ 
-├── 04_modele_gradient_boosting_visualisation  #contient les scripts qui executent notre modèle et la visualisation pour comparer nos résultats aux valeurs réelles
-│   ├──   prediction_v2.py  #script qui fait tourner un modèle light gbm et xgboost et renvoie le dataframe de script_data_frame_final_v2 en rajoutant ces predictions en colonne
-    └──   script_data_frame_final_v2.ipynb #script qui appelle les données de script_data dans le ssp_cloud ( dans result ) --> Renvoie un data frame nommé data_v2 sur SSP Cloud
-    └──   visualisation_finale_v2.ipynb  #appelle prediction_v2 et affiche les predicitons xgboost et lightgbm sur le port 5050
-│ 
-├── script_data
-        └── call_aapl.ipynb  #fichier python qui récupère l'historique du call avec le plus d'historique et les données du sous jacent de l'entreprise en question --> renvoie un dataframe data_entreprise_filtre2.csv sur SSP Cloud. On a affiché dans ce script le graphe qui montre la réprtition de nombre d'historique que l'on a pour chaque call
-        │
-.       .
-.       .
-.       .
-        │
-        └── call_tsla.py
-│       
-├── 01_script_data.ipynb #Script qui permet d'automatiser la création du dataframe prend plus d'une heure à tourner (script commenté) avec toutes les entreprises en même temps (cf readme/Nos données ) --> renvoie un           dataframe data_valv2 dans SSP Cloud
-│   Nous avons affiché à la fin de ce script les prévisions attendues par le modèle de Black Sholes en les superposant aux données réelles.     
-│   
-└── 02_analyse_data.ipynb #Note book qui appelle data_valv2 et qui analyse nos données dont certaines sur les call et sous jacent avec dash (sur les ports 5050,5051 et 5052 ) afin de faire une visualisation dynamique 
-│   
-└── 03_modele_arima_analyse_serie.ipynb #Note book qui fait l'étude classique des séries temporelles ( en prenant l'exemple d'une entreprise ) en regardant la stationnarité, la saisonnalité,... et qui explique pourquoi nous n'avons pas opté pour ce choix lors de nos modèles
-│   
-└── 05_LSTM.ipynb  #Fichier qui fais tourner un réseau de neurones récurrents pour prédire le prix du call et qui affiche les résultats pour une entreprise (AAPL, nous n'avons pas fait de visualisation dynamique comme précisé dans le notebook car il n'est pas opérationnel et nous n'avons pas encore trouvé pourquoi.
-│   
-└── visualisation_dynamique_local : dossier qui contient tous les éléments pour faire tourner nos visualisations dash en local si jamais ça ne fonctionne pas sur SSP Cloud ( cf Running the Project ) 
-
-
-```
