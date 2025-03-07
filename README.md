@@ -1,6 +1,4 @@
-# Option-Pricing
-
-## Project Description
+# Project Description
 
 ## Running the Project
 Le git se parcourt dans l'ordre annoncé par le numéro des fichiers/dossiers et les explications de chaque élément sont données dans la partie Project Structure en dernièere partie du Readme.
