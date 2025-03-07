@@ -1,19 +1,6 @@
 # Project Description
 
-## Running the Project
-Le git se parcourt dans l'ordre annoncé par le numéro des fichiers/dossiers et les explications de chaque élément sont données dans la partie Project Structure en dernièere partie du Readme.
-
-Il peut se lancer à partir de 02_analyse_data, la génération des données prenant du temps, toutes les données ont été mises sur SSPCloud
-
-Dans la suite du Readme nous détaillons les différents points nécessaires à la compréhension du projet
-
-Pour plusieurs visualisations, nous avons utilisé la librairie Dash. Puisque nous avons travaillé avec plusieurs séries temporelles, cette librairie permet de visualiser nos données de manières dynamique en ne selectionnant que la série temporelle souhaitée. Ainsi nous avons utilisé les ports 5050, 5051 et 5052 lors de la visualisation de nos données récoltées et le ports 5050 et 5051 lors de la visualisation de nos résultats en comparaison avec les données réelles. Il faut ainsi autorisé ces ports sur SSPcloud lorsque l'on lance le projet.  
-
-        -Networing detail > Enable a custom service port> Custom service ports
-
-Cependant lorsqu'on les lance sur le SSP Cloud, la page peut mettre longtemps à charger et nous ne savons pas à quoi cela est du sinon il est également possible de les lancer sur une instance locale de notre PC  téléchargeant le dossier "visualisation dynamique" dans lequel se trouve les notesbooks avec les données associées.
-
-### Définitions 
+## Définitions 
 
 **Option**
 Les options sont des produits financiers dits « dérivés » donnant le droit d'acheter ou de vendre une quantité d'actifs sous-jacents (actions, devises, etc.) pendant une période et à un prix convenus à l'avance. Vous payez une prime (prix de l'option) pour acquérir ce droit. 
@@ -45,7 +32,7 @@ Elle mesure le rendement ou la perte liée à l'évolution du sous-jacent.
 La moyenne X jours correspond à la moyenne arithmétique des prix du sous-jacent sur les X derniers jours. 
 C'est un indicateur de tendance utilisé pour lisser les variations et identifier des patterns.
 
-### Le modèle de Black Scholes 
+## Le modèle de Black Scholes 
 
 Le modèle de Black-Scholes, permet de calculer le prix théorique d'une option européenne (qui ne peut être exercée qu'à l'échéance) sur un actif sous-jacent (comme une action).
 C'est un outil mathématique utilisé principalement pour évaluer le prix des options financières. 
@@ -79,11 +66,11 @@ Où :
 - La première partie ![Equation](https://latex.codecogs.com/svg.image?%20S_0%5Ccdot%20N(d_1))représente la probabilité que l'option soit exercée à l'échéance, en fonction du prix actuel de l'action, de la volatilité et du temps restant. Plus cette probabilité est élevée, plus l'option vaut cher.
 - La seconde partie ![Equation](https://latex.codecogs.com/svg.image?-K%5Ccdot%20e%5E%7B-rT%7D%5Ccdot%20N(d_2))correspond à la valeur actualisée du paiement à l'échéance de l'option, en tenant compte du taux d'intérêt sans risque et du prix d'exercice. Elle reflète le coût d'opportunité de détenir l'option plutôt qu'un investissement sans risque.
 
-### Problématique
+## Problématique
 
 Comment prédire au mieux le prix d'une option? 
 
-### Project Scope
+## Project Scope
 
 Dans ce projet nous cherchons à prédire le prix d'une option call en fonction de données macroéconomiques et financières. La première étape est de constituer un fichier CSV agrégeant toutes les données nécessaires à la prédiction du prix d'une option. Après avoir visualisé ces différentes séries temporelles et étudier leurs caractéristiques avec le modèle ARIMA, nous avons cherché à les prédire à l'aide de 2 modèles : une méthode de boosting par gradient (XGBoost et LightGBM) et des réseaux de neuronnes récurrents (LSTM) pour répondre à la problématique et comparer avec le modèle théorique de Black Sholes.   
 
@@ -91,7 +78,7 @@ Dans ce projet nous cherchons à prédire le prix d'une option call en fonction 
 
 Pour répondre à notre problématique, nous avons du récupérer plusieurs catégories de données issues de différentes sources : 
 
-### Les données des sous-jacent et des calls
+## Les données des sous-jacent et des calls
 
 Nous avons utilisé la bibliothèque Yahoo Finance, yfinance, pour accéder aux données. Cependant, l'historique des prix des options d'achat (calls) ne remonte pas à plus de deux ans. Nous avons donc dû traiter un problème de série temporelle avec un volume limité de données historiques. Pour remédier à cette contrainte, deux approches étaient envisageables :
 
@@ -109,7 +96,7 @@ La bibliothèque yahoofinance ne fonctionnanant pas toujours après 2 ou 3 récu
 
 Nous avons donc du générer les tables de manière individuelle pour chaque entreprise ce qui prend 15 minutes/entreprise ( avec le script :  script_data/call_{entreprise}_v2 ) qui génère un fichier csv stocké dans le SSPcloud et accessible via "FILE_PATH_S3 = f"{MY_BUCKET}/result/data_{ticker}_filtre2.csv" comme précisé dans les scripts ). Le script "script_dataframe_final_v2.ipybn" permet à partir de ces fichiers dans SSPcloud de générer la table finale.
 
-### Les données macroéconomiques
+## Les données macroéconomiques
 
 Pour enrichir notre analyse et répondre efficacement à notre problématique, nous avons intégré plusieurs variables macroéconomiques.
 
@@ -122,7 +109,7 @@ Par ailleurs, nous avons aussi exploité l'API de la Banque Fédérale de Saint 
 
 Cette combinaison de données financières et macroéconomiques nous a permis d'approfondir notre analyse tout en garantissant une vue d'ensemble cohérente sur les différents facteurs influençant notre sujet.
 
-### Project Structure
+## Project Structure
 
 ```
 .
