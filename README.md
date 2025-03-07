@@ -68,7 +68,8 @@ Où :
 
 ## Problématique
 
-Comment prédire au mieux le prix d'une option? 
+Comment prédire de manière efficace le prix d'une option ?
+Comparaison entre modèle théorique et modèles de machine learning
 
 ## Project Scope
 
